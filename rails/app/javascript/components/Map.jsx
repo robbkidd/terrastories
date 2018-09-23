@@ -1,14 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 // mapboxgl.accessToken = 'pk.eyJ1Ijoia2FsaW1hciIsImEiOiJjajdhdmNtMjkwbGZlMzJyc2RvNmhjZXd3In0.tBIY2rRDHYt1VYeGTOH98g';
 
-export default class Map extends React.Component {
+export default class Map extends Component {
   constructor(props) {
     super(props);
     this.state = {
       points: []
     }
   }
+
+  // I wonder if component will receive props is how we want to execute the flyTo
+  // if new coords are received then execute the flyTo.
+
   componentDidMount() {
     fetch('/points.json')
       .then((response) => {return response.json()})
@@ -32,6 +36,8 @@ export default class Map extends React.Component {
     this.map.addControl(new mapboxgl.NavigationControl());
     if(this.state.points) {
       this.map.on('load', () => {
+        // just testing the passing in of the coords
+        if (this.props.coords) {alert(this.props.coords)}
         this.state.points.features.forEach(marker => {
           console.log(marker.properties);
            // create a HTML element for each feature
